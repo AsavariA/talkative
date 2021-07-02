@@ -24,27 +24,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getSteps = () => {
-  return ['Sign Up', 'Create Username', 'Upload Profile Photo'];
-}
-
-const getStepContent = (step) => {
-  switch (step) {
-    case 0:
-      return <Form />;
-    case 1:
-      return <Username />;
-    case 2:
-      return <ProfilePhoto />;
-    default:
-      return 'Unknown step';
-  }
-}
-
 const Signup = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const [toggleForm, setToggleForm] = useState(false);
+  
+  const getSteps = () => {
+    return toggleForm ? ['Sign Up', 'Create Username', 'Upload Profile Photo'] : ['Log In'];
+  }
   const steps = getSteps();
+
+  const getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return <Form toggleForm={toggleForm}/>;
+      case 1:
+        return <Username />;
+      case 2:
+        return <ProfilePhoto />;
+      default:
+        return 'Unknown step';
+    }
+  }
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -57,6 +58,11 @@ const Signup = () => {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  const handleToggle = () => {
+    setToggleForm(!toggleForm);
+    setActiveStep(0);
+  }
 
   return (
     <div className={classes.root}>
@@ -97,6 +103,7 @@ const Signup = () => {
           </Button>
         </Paper>
       )}
+      <Button onClick={handleToggle}>{!toggleForm ? 'Create an account' : 'Already have an account'}</Button>
     </div>
   );
 }
