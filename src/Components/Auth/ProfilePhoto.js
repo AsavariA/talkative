@@ -15,7 +15,7 @@ const ProfilePhoto = () => {
                     <Avatar alt="profile-photo" src={profile} className={classes.large} />
                     <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                         <div className="filebase">
-                            <p>Upload Photo</p>
+                            <p>{profile ? 'Change Photo' : 'Upload Photo'}</p>
                             <FileBase type="file" className="photo" multiple={false} onDone={({ base64 }) => setProfile(base64)}></FileBase>
                         </div>
                     </Button>
