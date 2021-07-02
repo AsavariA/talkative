@@ -11,6 +11,7 @@ const Input = ({ name, handleChange, label, half, type, handleShowPassword }) =>
       variant="outlined"
       required
       fullWidth
+      autoComplete='on'
       size="small"
       label={label}
       type={type}

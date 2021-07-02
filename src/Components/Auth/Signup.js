@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Stepper, Step, StepLabel, StepContent, Button, Paper, Typography} from '@material-ui/core';
 import Form from './Form'
+import Username from './Username'
+import ProfilePhoto from './ProfilePhoto'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: 'fit-content',
+    margin: 'auto'
   },
   button: {
     marginTop: theme.spacing(1),
@@ -15,12 +18,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   resetContainer: {
+    width: 'fit-content',
+    margin: 'auto',
     padding: theme.spacing(3),
   },
 }));
 
 const getSteps = () => {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+  return ['Sign Up', 'Create Username', 'Upload Profile Photo'];
 }
 
 const getStepContent = (step) => {
@@ -28,9 +33,9 @@ const getStepContent = (step) => {
     case 0:
       return <Form />;
     case 1:
-      return <Form />;
+      return <Username />;
     case 2:
-      return <Form />;
+      return <ProfilePhoto />;
     default:
       return 'Unknown step';
   }
@@ -38,7 +43,7 @@ const getStepContent = (step) => {
 
 const Signup = () => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
 
   const handleNext = () => {

@@ -1,0 +1,15 @@
+.filebase{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filebase p{
+    position: absolute;
+    margin: auto;
+}
+
+.filebase input{
+    opacity: 0;
+    width: -webkit-fill-available;
+}
