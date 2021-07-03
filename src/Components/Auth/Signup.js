@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {Stepper, Step, StepLabel, StepContent, Button, Paper, Typography} from '@material-ui/core';
+import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography } from '@material-ui/core';
 import Form from './Form'
 import Username from './Username'
 import ProfilePhoto from './ProfilePhoto'
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     width: 'fit-content',
     margin: 'auto',
     padding: theme.spacing(3),
-    background:'transparent'
+    background: 'transparent'
   },
 }));
 
@@ -30,24 +30,18 @@ const Signup = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [toggleForm, setToggleForm] = useState(false);
-  
+  const [userData, setUserData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    username: '',
+    photo: ''
+  });
+
   const getSteps = () => {
     return toggleForm ? ['Sign Up', 'Create Username', 'Upload Profile Photo'] : ['Log In'];
   }
   const steps = getSteps();
-
-  const getStepContent = (step) => {
-    switch (step) {
-      case 0:
-        return <Form toggleForm={toggleForm}/>;
-      case 1:
-        return <Username />;
-      case 2:
-        return <ProfilePhoto />;
-      default:
-        return 'Unknown step';
-    }
-  }
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -61,9 +55,29 @@ const Signup = () => {
     setActiveStep(0);
   };
 
+  const getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return <Form toggleForm={toggleForm} userData={userData} setUserData={setUserData} handleNext={handleNext} />;
+      case 1:
+        return <Username userData={userData} setUserData={setUserData} handleNext={handleNext} />;
+      case 2:
+        return <ProfilePhoto userData={userData} setUserData={setUserData} handleNext={handleNext} />;
+      default:
+        return 'Unknown step';
+    }
+  }
+
   const handleToggle = () => {
     setToggleForm(!toggleForm);
     setActiveStep(0);
+    setUserData({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      username: '',
+      photo: ''
+    })
   }
 
   return (
@@ -76,21 +90,22 @@ const Signup = () => {
               {getStepContent(index)}
               <div className={classes.actionsContainer}>
                 <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
+                  {toggleForm ?
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={classes.button}
+                    >
+                      Back
+                    </Button> : null}
+                  {toggleForm && activeStep === steps.length - 1 ?
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >Finish</Button> : null
+                  }
                 </div>
               </div>
             </StepContent>
@@ -105,7 +120,9 @@ const Signup = () => {
           </Button>
         </Paper>
       )}
-      <Button onClick={handleToggle}>{!toggleForm ? 'Create an account' : 'Already have an account'}</Button>
+      <div style={{ textAlign: 'center' }}>
+        <Button onClick={handleToggle}>{!toggleForm ? 'Create an account' : 'Already have an account'}</Button>
+      </div>
     </div>
   );
 }
