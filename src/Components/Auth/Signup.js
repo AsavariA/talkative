@@ -45,6 +45,7 @@ const Signup = () => {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    console.log(userData);
   };
 
   const handleBack = () => {

@@ -8,7 +8,6 @@ const Username = ({userData, setUserData, handleNext}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(userData);
         handleNext();
     }
 
