@@ -2,12 +2,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
     paper: {
-        // marginTop: theme.spacing(13),
-        // marginBottom: theme.spacing(13),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         padding: theme.spacing(2),
+        backgroundColor: 'rgba(255,255,255,0.8)',
+        borderRadius: '10px'
       },
       main: {
         margin: 0
@@ -25,8 +25,8 @@ export default makeStyles((theme) => ({
         margin: theme.spacing(3, 0, 2),
       },
       large: {
-        width: theme.spacing(20),
-        height: theme.spacing(20),
+        width: theme.spacing(15),
+        height: theme.spacing(15),
         margin: 'auto'
       },
   }));

@@ -8,7 +8,8 @@ import ProfilePhoto from './ProfilePhoto'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 'fit-content',
-    margin: 'auto'
+    margin: 'auto',
+    position: 'relative'
   },
   button: {
     marginTop: theme.spacing(1),
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     width: 'fit-content',
     margin: 'auto',
     padding: theme.spacing(3),
+    background:'transparent'
   },
 }));
 

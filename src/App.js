@@ -13,7 +13,9 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <>
+      <div className="auth-div">
         <Signup />
+        </div>
       </>
     </MuiThemeProvider>
   );

@@ -15,7 +15,7 @@ const Username = () => {
                     <form className={classes.form}>
                         <Grid container spacing={2}>
                             <Input name="username" label="Get Creative" type="text" autoComplete='off' handleChange={(e) => setUsername(e.target.value)} />
-                            <Typography component="h1" variant="subtitle1">{username === '' ? 'Get yourself a nice username' : `${username}! yes, that sounds cool!`}</Typography>
+                            <Typography variant="subtitle2">{username === '' ? 'Get yourself a nice username' : `${username}! yes, that sounds cool!`}</Typography>
                         </Grid>
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Create username</Button>
                     </form>
