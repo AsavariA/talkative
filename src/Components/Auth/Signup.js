@@ -4,6 +4,10 @@ import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography } from
 import Form from './Form'
 import Username from './Username'
 import ProfilePhoto from './ProfilePhoto'
+import fire from '../../services/fire'
+import firebase from 'firebase/app';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Signup = () => {
+const Signup = ({loggedIn}) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [toggleForm, setToggleForm] = useState(false);
@@ -45,7 +49,6 @@ const Signup = () => {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log(userData);
   };
 
   const handleBack = () => {
@@ -56,10 +59,59 @@ const Signup = () => {
     setActiveStep(0);
   };
 
+  const handleFinish = () => {
+    console.log(userData);
+    fire.auth()
+      .createUserWithEmailAndPassword(userData.email, userData.password)
+      .then(response => {
+        if (response) {
+          console.log(response)
+          toast.success('User Registered Successfully');
+          const { user } = response;
+          const data = {
+            userId: user.uid,
+            email: user.email
+          }
+          localStorage.setItem('user', JSON.stringify(data));
+          const storage = localStorage.getItem('user');
+          const loggedInUser = storage !== null ? JSON.parse(storage) : null;
+          loggedIn(loggedInUser);
+          fire.firestore()
+            .collection('Users')
+            .doc(userData.email)
+            .set({
+              username: userData.username,
+              photo: userData.photo,
+            })
+          fire.firestore()
+            .collection('Users')
+            .doc('ALL_USERNAMES')
+            .update({
+              "usernames": firebase.firestore.FieldValue.arrayUnion(userData.username),
+            })
+        }
+      }).catch((error) => {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            toast.error(error.message);
+            break;
+          case 'auth/invalid-email':
+            toast.error(error.message);
+            break;
+          case 'auth/weak-password':
+            toast.error(error.message);
+            break;
+          default:
+            break;
+        }
+      }
+      );
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <Form toggleForm={toggleForm} userData={userData} setUserData={setUserData} handleNext={handleNext} />;
+        return <Form loggedIn={loggedIn} toggleForm={toggleForm} userData={userData} setUserData={setUserData} handleNext={handleNext} />;
       case 1:
         return <Username userData={userData} setUserData={setUserData} handleNext={handleNext} />;
       case 2:
@@ -83,6 +135,7 @@ const Signup = () => {
 
   return (
     <div className={classes.root}>
+      <ToastContainer />
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label}>
@@ -103,7 +156,7 @@ const Signup = () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={handleNext}
+                      onClick={handleFinish}
                       className={classes.button}
                     >Finish</Button> : null
                   }
