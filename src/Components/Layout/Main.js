@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Grid } from '@material-ui/core';
+import Profile from './Profile'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,19 +14,22 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         borderRadius: '20px',
         background: 'rgba(255,255,255,0.5)',
-        backdropFilter: 'blur(20px)'
+        backdropFilter: 'blur(5px)'
     },
     halfpaper: {
         padding: theme.spacing(2),
         textAlign: 'center',
-        height: '48%',
+        height: '100%',
         borderRadius: '20px',
         background: 'rgba(255,255,255,0.5)',
-        backdropFilter: 'blur(20px)'
+        backdropFilter: 'blur(5px)'
     },
+    separator: {
+        height: '4rem'
+    }
 }));
 
-const Main = () => {
+const Main = ({setUserState}) => {
     const classes = useStyles();
 
     return (
@@ -40,7 +44,8 @@ const Main = () => {
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <div className="halfgrid">
-                            <Paper className={classes.halfpaper}>Mesies</Paper>
+                            <Paper className={classes.halfpaper}><Profile setUserState={setUserState} /></Paper>
+                            <div className={classes.separator}></div>
                             <Paper className={classes.halfpaper}>Search</Paper>
                         </div>
                     </Grid>

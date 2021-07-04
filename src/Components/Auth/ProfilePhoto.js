@@ -15,8 +15,8 @@ const ProfilePhoto = ({ userData, setUserData }) => {
         if(mimeType !== 'image/png' && mimeType !== 'image/jpeg'){
             toast.error('Please select a valid image!')
         }
-        else if((size / 1024) > 400){
-            toast.error('Image size too big, please select image within 500kb!')
+        else if((size / 1024) > 100){
+            toast.error('Image size too big, please select image within 100kb!')
         } else {
             setUserData({ ...userData, 'photo': base64 })
         }
@@ -32,7 +32,7 @@ const ProfilePhoto = ({ userData, setUserData }) => {
                         <Avatar alt="profile-photo" src={userData.photo} className={classes.large} />
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                             <div className="filebase">
-                                <p>{userData.photo ? 'Change Photo < 400kb' : 'Upload Photo < 400kb'}</p>
+                                <p>{userData.photo ? 'Change Photo < 100kb' : 'Upload Photo < 100kb'}</p>
                                 <FileBase type="file" className="photo" multiple={false} onDone={handleChange}></FileBase>
                             </div>
                         </Button>

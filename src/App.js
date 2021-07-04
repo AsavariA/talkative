@@ -29,7 +29,7 @@ function App() {
       <>
       {
         user 
-        ? <div><Main /></div> 
+        ? <div><Main setUserState={() => setUser(null)}/></div> 
         : <div className="auth-div">
           <Signup loggedIn={(user) => setUser(user)}/>
         </div> 
