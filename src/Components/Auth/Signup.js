@@ -82,6 +82,7 @@ const Signup = ({loggedIn}) => {
             .set({
               username: userData.username,
               photo: userData.photo,
+              email: userData.email
             })
           fire.firestore()
             .collection('Users')

@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Grid } from '@material-ui/core';
 import Profile from './Profile'
+import Search from './Search'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,7 +47,7 @@ const Main = ({setUserState}) => {
                         <div className="halfgrid">
                             <Paper className={classes.halfpaper}><Profile setUserState={setUserState} /></Paper>
                             <div className={classes.separator}></div>
-                            <Paper className={classes.halfpaper}>Search</Paper>
+                            <Paper className={classes.halfpaper}><Search /></Paper>
                         </div>
                     </Grid>
                 </Grid>

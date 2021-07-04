@@ -66,6 +66,7 @@ const Profile = ({setUserState}) => {
             .doc(profileData.email)
             .set({
                 username: profileData.username,
+                email: profileData.email,
                 photo: editPhoto,
             })
         setOpen(false)
