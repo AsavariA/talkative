@@ -44,6 +44,28 @@
     background-color: transparent !important;
 }
 
+.main{
+    height: 100vh;
+    background: url('./assets/main_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 100%;
+    filter: blur(10%);
+    padding: 2rem;
+}
+
+
+.MuiGrid-spacing-xs-3{
+    height: -webkit-fill-available;
+}
+
+.halfgrid{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 
 @media only screen and (max-width: 600px){
     :root{
