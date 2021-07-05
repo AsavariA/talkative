@@ -37,6 +37,32 @@ const Main = ({ setUserState }) => {
     const email = JSON.parse(localStorage.getItem("user")).email;
     const [allUsers, setAllUsers] = useState([]);
     const [friendUsers, setFriendUsers] = useState([]);
+    const [profileData, setProfileData] = useState({
+        username: '',
+        email: '',
+        photo: ''
+    })
+
+    if (localStorage.getItem('user') !== null) {
+        const email = JSON.parse(localStorage.getItem("user")).email;
+        fire.firestore().collection('Users')
+            .doc(email)
+            .get()
+            .then(function (doc) {
+                if (doc.exists) {
+                    setProfileData({
+                        email: email,
+                        username: doc.data().username,
+                        photo: doc.data().photo
+                    });
+                }
+                else {
+                    console.log("No such Document found");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document: ", error)
+            });
+    }
 
     fire.firestore()
         .collection('Users')
@@ -70,9 +96,9 @@ const Main = ({ setUserState }) => {
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <div className="halfgrid">
-                            <Paper className={classes.halfpaper}><Profile setUserState={setUserState} /></Paper>
+                            <Paper className={classes.halfpaper}><Profile profileData={profileData} setUserState={setUserState} /></Paper>
                             <div className={classes.separator}></div>
-                            <Paper className={classes.halfpaper}><Search nonFriends={nonFriends} /></Paper>
+                            <Paper className={classes.halfpaper}><Search profileData={profileData} nonFriends={nonFriends} allUsers={allUsers} /></Paper>
                         </div>
                     </Grid>
                 </Grid>

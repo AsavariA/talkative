@@ -19,13 +19,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const Profile = ({setUserState}) => {
+const Profile = ({setUserState, profileData}) => {
     const classes = useStyles();
-    const [profileData, setProfileData] = useState({
-        username: '',
-        email: '',
-        photo: ''
-    })
+    
     const [editPhoto, setEditPhoto] = useState('')
     const [open, setOpen] = useState(false);
 
@@ -38,27 +34,6 @@ const Profile = ({setUserState}) => {
         setOpen(false);
         setEditPhoto(profileData.photo);
     };
-
-    if (localStorage.getItem('user') !== null) {
-        const email = JSON.parse(localStorage.getItem("user")).email;
-        fire.firestore().collection('Users')
-            .doc(email)
-            .get()
-            .then(function (doc) {
-                if (doc.exists) {
-                    setProfileData({
-                        email: email,
-                        username: doc.data().username,
-                        photo: doc.data().photo
-                    });
-                }
-                else {
-                    console.log("No such Document found");
-                }
-            }).catch(function (error) {
-                console.log("Error getting document: ", error)
-            });
-    }
 
     const handleSubmit = () => {
         fire.firestore()
@@ -90,7 +65,6 @@ const Profile = ({setUserState}) => {
         } else {
             setEditPhoto(base64)
         }
-        console.log(editPhoto)
     }
 
     return (

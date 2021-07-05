@@ -1,7 +1,8 @@
 import React from 'react';
-import { Paper, IconButton, Avatar } from '@material-ui/core';
+import { Paper, IconButton, Avatar, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import CheckIcon from '@material-ui/icons/Check';
 import fire from '../../services/fire';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const AddUser = ({ doc }) => {
+const AddUser = ({ doc, allUsers, nonFriends, profileData }) => {
     const classes = useStyles();
     const email = JSON.parse(localStorage.getItem("user")).email;
 
@@ -24,16 +25,18 @@ const AddUser = ({ doc }) => {
             .collection('Chats')
             .doc(doc.email)
             .set({
-                chats: [{msg: 'Hey! I added you as a friend!', sender: email, time: new Date()}]
+                chats: [{ msg: 'Hey! I added you as a friend!', sender: email, time: new Date() }],
+                username: doc.username
             })
-        
+
         fire.firestore()
             .collection('Users')
             .doc(doc.email)
             .collection('Chats')
             .doc(email)
             .set({
-                chats: [{msg: 'Hey! I added you as a friend!', sender: email, time: new Date()}]
+                chats: [{ msg: 'Hey! I added you as a friend!', sender: email, time: new Date() }],
+                username: profileData.username
             })
     }
 
@@ -45,13 +48,23 @@ const AddUser = ({ doc }) => {
                     : <div style={{ margin: '1rem 0' }}>
                         <Paper className={classes.paper}>
                             <div style={{ display: 'flex', alignItems: 'center', 'justifyContent': 'space-between' }}>
-                                <div style={{ display: 'flex', alignItems: 'center'}}>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <Avatar alt="profile-photo" src={doc.photo} />
-                                    <p style={{ margin: '0 1rem'}}>{doc.username}</p>
+                                    <p style={{ margin: '0 1rem' }}>{doc.username}</p>
                                 </div>
-                                <IconButton onClick={addUser}>
-                                    <PersonAddIcon />
-                                </IconButton>
+                                {
+                                    nonFriends === allUsers || nonFriends.length !== allUsers.length
+                                        ? <IconButton onClick={addUser}>
+                                            <Tooltip title="Add Friend">
+                                                <PersonAddIcon />
+                                            </Tooltip>
+                                        </IconButton>
+                                        : <IconButton>
+                                            <Tooltip title="Already a friend!">
+                                                <CheckIcon />
+                                            </Tooltip>
+                                        </IconButton>
+                                }
                             </div>
                         </Paper>
                     </div>

@@ -81,6 +81,25 @@
     justify-content: space-between;
 }
 
+.list-tile{
+    text-align: left;
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid rgb(158, 172, 255);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-tile h2{
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.list-tile h3{
+    font-size: 13px;
+    font-weight: normal;
+}
+
 @media only screen and (max-width: 600px){
     :root{
         font-size: 14px;

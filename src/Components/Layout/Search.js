@@ -3,7 +3,7 @@ import AddUser from './AddUser'
 import { TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-const Search = ({nonFriends}) => {
+const Search = ({nonFriends, allUsers, profileData}) => {
    
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -37,7 +37,7 @@ const Search = ({nonFriends}) => {
                 }).map((doc, key) => {
                     return (
                         <div key={key}>
-                            <AddUser doc={doc.data} />
+                            <AddUser doc={doc.data} nonFriends={nonFriends} allUsers={allUsers} profileData={profileData} />
                         </div>
                     )
                 }
