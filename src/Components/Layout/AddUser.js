@@ -2,6 +2,7 @@ import React from 'react';
 import { Paper, IconButton, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import fire from '../../services/fire';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -16,6 +17,26 @@ const AddUser = ({ doc }) => {
     const classes = useStyles();
     const email = JSON.parse(localStorage.getItem("user")).email;
 
+    const addUser = () => {
+        fire.firestore()
+            .collection('Users')
+            .doc(email)
+            .collection('Chats')
+            .doc(doc.email)
+            .set({
+                chats: [{msg: 'Hey! I added you as a friend!', sender: email, time: new Date()}]
+            })
+        
+        fire.firestore()
+            .collection('Users')
+            .doc(doc.email)
+            .collection('Chats')
+            .doc(email)
+            .set({
+                chats: [{msg: 'Hey! I added you as a friend!', sender: email, time: new Date()}]
+            })
+    }
+
     return (
         <>
             {
@@ -26,9 +47,9 @@ const AddUser = ({ doc }) => {
                             <div style={{ display: 'flex', alignItems: 'center', 'justifyContent': 'space-between' }}>
                                 <div style={{ display: 'flex', alignItems: 'center'}}>
                                     <Avatar alt="profile-photo" src={doc.photo} />
-                                    <p style={{ margin: '0 0.5rem'}}>{doc.username}</p>
+                                    <p style={{ margin: '0 1rem'}}>{doc.username}</p>
                                 </div>
-                                <IconButton>
+                                <IconButton onClick={addUser}>
                                     <PersonAddIcon />
                                 </IconButton>
                             </div>

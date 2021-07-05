@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
-import fire from '../../services/fire';
 import AddUser from './AddUser'
 import { TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-const Search = () => {
-    const [userList, setUserList] = useState([]);
+const Search = ({nonFriends}) => {
+   
     const [searchTerm, setSearchTerm] = useState('');
-
-    fire.firestore()
-        .collection('Users')
-        .get()
-        .then(querySnapshot => {
-            const documents = querySnapshot.docs.map(doc => doc.data())
-            setUserList(documents)
-        })
 
     return (
         <>
@@ -34,19 +25,19 @@ const Search = () => {
                     </InputAdornment>
                 }}
             />
-            {!userList
+            {!nonFriends
                 ? <p>Loading...</p>
                 // eslint-disable-next-line
-                : userList.filter((doc) => {
+                : nonFriends.filter((doc) => {
                     if (searchTerm === '') {
-                        return doc
-                    } else if (doc.username.toLowerCase().includes(searchTerm.toLowerCase())) { 
-                        return doc
+                        return doc.data
+                    } else if (doc.data.username.toLowerCase().includes(searchTerm.toLowerCase())) { 
+                        return doc.data
                     }
                 }).map((doc, key) => {
                     return (
                         <div key={key}>
-                            <AddUser doc={doc} />
+                            <AddUser doc={doc.data} />
                         </div>
                     )
                 }
