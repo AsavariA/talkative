@@ -46,11 +46,12 @@
 
 .main{
     height: 100vh;
-    background: url('./assets/main_background.jpg');
+    /* background: url('./assets/billy-huynh-v9bnfMCyKbg-unsplash.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 100%;
-    filter: blur(10%);
+    filter: blur(10%); */
+    background-color: rgb(158, 172, 255);
     padding: 2rem;
 }
 
