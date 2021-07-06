@@ -4,6 +4,7 @@ import { Paper, Grid } from '@material-ui/core';
 import Profile from './Profile'
 import Search from './Search'
 import ChatList from './ChatList'
+import Chat from './Chat'
 import fire from '../../services/fire';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,9 +43,24 @@ const Main = ({ setUserState }) => {
         email: '',
         photo: ''
     })
+    const [activeChat, setActiveChat] = useState({
+        email: '',
+        username: '',
+        chats: []
+    });
+
+    function timeConverter(UNIX_timestamp){
+        var a = new Date(UNIX_timestamp * 1000);
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var time = date + ' ' + month + ' ' + hour + ':' + min;
+        return time;
+      }
 
     if (localStorage.getItem('user') !== null) {
-        const email = JSON.parse(localStorage.getItem("user")).email;
         fire.firestore().collection('Users')
             .doc(email)
             .get()
@@ -89,10 +105,10 @@ const Main = ({ setUserState }) => {
             <div className={classes.root}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={3}>
-                        <Paper className={classes.paper}><ChatList friendUsers={friendUsers} /></Paper>
+                        <Paper className={classes.paper}><ChatList timeConverter={timeConverter} setActiveChat={setActiveChat} friendUsers={friendUsers} /></Paper>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <Paper className={classes.paper}>Convos</Paper>
+                        <Paper className={classes.paper}><Chat timeConverter={timeConverter} activeChat={activeChat}/></Paper>
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <div className="halfgrid">

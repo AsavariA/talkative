@@ -3,7 +3,7 @@ import FriendTile from './FriendTile'
 import { TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-const ChatList = ({ friendUsers }) => {
+const ChatList = ({ friendUsers, setActiveChat, timeConverter }) => {
 
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -38,7 +38,7 @@ const ChatList = ({ friendUsers }) => {
                 }).map((friend, key) => {
                     return (
                         <div key={key}>
-                            <FriendTile friend={friend} />
+                            <FriendTile setActiveChat={setActiveChat} timeConverter={timeConverter} friend={friend} />
                         </div>
                     )
                 })

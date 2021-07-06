@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = ({setUserState, profileData}) => {
     const classes = useStyles();
-    
+    const email = JSON.parse(localStorage.getItem("user")).email;
     const [editPhoto, setEditPhoto] = useState('')
     const [open, setOpen] = useState(false);
 
@@ -32,18 +32,18 @@ const Profile = ({setUserState, profileData}) => {
 
     const handleClose = () => {
         setOpen(false);
-        setEditPhoto(profileData.photo);
     };
 
     const handleSubmit = () => {
+        toast.warning('Hold on! This might take a while')
         fire.firestore()
             .collection('Users')
-            .doc(profileData.email)
+            .doc(email)
             .set({
                 username: profileData.username,
-                email: profileData.email,
+                email: email,
                 photo: editPhoto,
-            })
+            })    
         setOpen(false)
     };
 

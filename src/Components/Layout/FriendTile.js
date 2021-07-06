@@ -2,21 +2,12 @@ import React, { useState } from 'react';
 import fire from '../../services/fire';
 import {Avatar} from '@material-ui/core';
 
-const FriendTile = ({friend}) => {
+const FriendTile = ({friend, setActiveChat, timeConverter}) => {
 
     const [photo, setPhoto] = useState('')
     const lastMessage = friend.data.chats[friend.data.chats.length - 1]
 
-    function timeConverter(UNIX_timestamp){
-        var a = new Date(UNIX_timestamp * 1000);
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        var month = months[a.getMonth()];
-        var date = a.getDate();
-        var hour = a.getHours();
-        var min = a.getMinutes();
-        var time = date + ' ' + month + ' ' + hour + ':' + min;
-        return time;
-      }
+    
 
     fire.firestore()
         .collection('Users')
@@ -32,7 +23,7 @@ const FriendTile = ({friend}) => {
         })
 
     return (
-        <div className="list-tile">
+        <div className="list-tile" onClick={() => setActiveChat({email: friend.id, username: friend.data.username, chats: friend.data.chats})}>
             <Avatar alt="profile-photo" src={photo} />
             <div>
                 <h2>{friend.data.username}</h2>

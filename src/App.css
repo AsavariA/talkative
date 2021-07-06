@@ -100,6 +100,44 @@
     font-weight: normal;
 }
 
+.chat-area{
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: beige;
+    height: -webkit-fill-available;
+}
+
+.rightbubble{
+    background-color: coral;
+    width: fit-content;
+    max-width: 70%;
+    text-align: left;
+    float: right;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px 10px 0 10px;
+}
+
+.leftbubble{
+    background-color: turquoise;
+    width: fit-content;
+    max-width: 70%;
+    text-align: left;
+    float: left;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px 10px 10px 0;
+}
+
+.chat-area h3 {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.chat-area p {
+    font-size: 13px;
+    font-weight: normal;
+    text-align: right;
+}
+
 @media only screen and (max-width: 600px){
     :root{
         font-size: 14px;
