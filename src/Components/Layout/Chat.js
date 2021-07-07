@@ -13,16 +13,6 @@ const Chat = ({ activeChat, timeConverter }) => {
     }
     const email = JSON.parse(localStorage.getItem("user")).email;
     const [msg, setMsg] = useState('');
-    const [chatList, setChatList] = useState([]);
-
-    fire.firestore()
-    .collection('Users')
-    .doc(email)
-    .collection('Chats')
-    .doc(activeChat.email)
-    .onSnapshot(querySnapshot => {
-        const chatList = querySnapshot.data()
-    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
