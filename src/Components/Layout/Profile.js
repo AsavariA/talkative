@@ -32,20 +32,21 @@ const Profile = ({setUserState, profileData}) => {
 
     const handleClose = () => {
         setOpen(false);
-    };
+    }
 
     const handleSubmit = () => {
         toast.warning('Hold on! This might take a while')
         fire.firestore()
             .collection('Users')
             .doc(email)
-            .set({
-                username: profileData.username,
-                email: email,
+            .update({
                 photo: editPhoto,
+            }).then(function() {
+                alert('document updated!')
             })    
         setOpen(false)
-    };
+    }
+        
 
     const handleLogout = () => {
         localStorage.removeItem('user');

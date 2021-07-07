@@ -49,41 +49,48 @@ const Main = ({ setUserState }) => {
         chats: []
     });
 
-    function timeConverter(UNIX_timestamp){
+    function timeConverter(UNIX_timestamp) {
         var a = new Date(UNIX_timestamp * 1000);
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var month = months[a.getMonth()];
         var date = a.getDate();
         var hour = a.getHours();
         var min = a.getMinutes();
         var time = date + ' ' + month + ' ' + hour + ':' + min;
         return time;
-      }
-
-    if (localStorage.getItem('user') !== null) {
-        fire.firestore().collection('Users')
-            .doc(email)
-            .get()
-            .then(function (doc) {
-                if (doc.exists) {
-                    setProfileData({
-                        email: email,
-                        username: doc.data().username,
-                        photo: doc.data().photo
-                    });
-                }
-                else {
-                    console.log("No such Document found");
-                }
-            }).catch(function (error) {
-                console.log("Error getting document: ", error)
-            });
     }
+
+    fire.firestore().collection('Users')
+        .doc(email)
+        .onSnapshot(doc => {
+            setProfileData({
+                email: email,
+                username: doc.data().username,
+                photo: doc.data().photo
+            });
+        })
+
+
+
+    // .get()
+    // .then(function (doc) {
+    //     if (doc.exists) {
+    //         setProfileData({
+    //             email: email,
+    //             username: doc.data().username,
+    //             photo: doc.data().photo
+    //         });
+    //     }
+    //     else {
+    //         console.log("No such Document found");
+    //     }
+    // }).catch(function (error) {
+    //     console.log("Error getting document: ", error)
+    // });
 
     fire.firestore()
         .collection('Users')
-        .get()
-        .then(querySnapshot => {
+        .onSnapshot(querySnapshot => {
             const documents = querySnapshot.docs.map(doc => { return { id: doc.id, data: doc.data() } })
             setAllUsers(documents)
         })
@@ -92,8 +99,7 @@ const Main = ({ setUserState }) => {
         .collection('Users')
         .doc(email)
         .collection('Chats')
-        .get()
-        .then(querySnapshot => {
+        .onSnapshot(querySnapshot => {
             const documents = querySnapshot.docs.map(doc => { return { id: doc.id, data: doc.data() } })
             setFriendUsers(documents)
         })
@@ -108,7 +114,7 @@ const Main = ({ setUserState }) => {
                         <Paper className={classes.paper}><ChatList timeConverter={timeConverter} setActiveChat={setActiveChat} friendUsers={friendUsers} /></Paper>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <Paper className={classes.paper}><Chat timeConverter={timeConverter} activeChat={activeChat}/></Paper>
+                        <Paper className={classes.paper}><Chat timeConverter={timeConverter} activeChat={activeChat} /></Paper>
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <div className="halfgrid">
